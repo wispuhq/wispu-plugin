@@ -1285,13 +1285,13 @@
           "type": "integer",
           "minimum": 1,
           "maximum": 9007199254740991,
-          "description": "The format's revision you read (get_editorial_media)."
+          "description": "The format's revision you read (list_editorial_variations returns it as revision)."
         },
         "expected_media_revision": {
           "type": "integer",
           "minimum": 0,
           "maximum": 9007199254740991,
-          "description": "The format's media revision you read (get_editorial_media; 0 when it has no creative)."
+          "description": "The format's media revision you read (list_editorial_variations returns it as media_revision; 0 when it has no creative)."
         },
         "connection_ids": {
           "minItems": 1,
@@ -5889,13 +5889,13 @@
           "type": "integer",
           "minimum": 1,
           "maximum": 9007199254740991,
-          "description": "The format's revision you read (get_editorial_media)."
+          "description": "The format's revision you read (list_editorial_variations returns it as revision)."
         },
         "expected_media_revision": {
           "type": "integer",
           "minimum": 0,
           "maximum": 9007199254740991,
-          "description": "The format's media revision you read (get_editorial_media; 0 when it has no creative)."
+          "description": "The format's media revision you read (list_editorial_variations returns it as media_revision; 0 when it has no creative)."
         },
         "connection_ids": {
           "minItems": 1,
@@ -7351,13 +7351,13 @@
           "type": "integer",
           "minimum": 1,
           "maximum": 9007199254740991,
-          "description": "The format's revision you read (get_editorial_media)."
+          "description": "The format's revision you read (list_editorial_variations returns it as revision)."
         },
         "expected_media_revision": {
           "type": "integer",
           "minimum": 0,
           "maximum": 9007199254740991,
-          "description": "The format's media revision you read (get_editorial_media; 0 when it has no creative)."
+          "description": "The format's media revision you read (list_editorial_variations returns it as media_revision; 0 when it has no creative)."
         },
         "connection_ids": {
           "minItems": 1,
