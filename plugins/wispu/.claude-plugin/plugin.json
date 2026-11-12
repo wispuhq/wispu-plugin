@@ -1,0 +1,21 @@
+{
+  "name": "wispu",
+  "displayName": "Wispu",
+  "version": "2.0.0",
+  "description": "Run your Wispu Brand from Claude: read results, plan the week, save ideas, draft and repurpose content in your Brand voice, keep the Reader and goals up to date, and publish with one approval in Wispu.",
+  "author": {
+    "name": "Wispu",
+    "url": "https://wispu.app"
+  },
+  "homepage": "https://wispu.app/developers",
+  "repository": "https://github.com/wispuhq/wispu-plugin",
+  "license": "MIT",
+  "keywords": [
+    "wispu",
+    "content",
+    "linkedin",
+    "social media",
+    "brand",
+    "mcp"
+  ]
+}

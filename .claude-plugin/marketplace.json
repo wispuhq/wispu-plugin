@@ -1,0 +1,17 @@
+{
+  "name": "wispu",
+  "owner": {
+    "name": "Wispu",
+    "url": "https://wispu.app"
+  },
+  "description": "The official Wispu plugin: your Brand's Context, ideas, drafts and publishing inside Claude.",
+  "plugins": [
+    {
+      "name": "wispu",
+      "source": "./plugins/wispu",
+      "description": "Run your Wispu Brand from Claude: read results, plan the week, save ideas, draft and repurpose content in your Brand voice, keep the Reader and goals up to date, and publish with one approval in Wispu.",
+      "version": "2.0.0",
+      "repository": "https://github.com/wispuhq/wispu-plugin"
+    }
+  ]
+}
