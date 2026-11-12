@@ -1,6 +1,6 @@
 ---
 name: wispu-publish
-description: Publish or schedule a Wispu draft to the Brand's connected social accounts, with the person's approval in Wispu, and follow up on posts already sent. Use when the person asks to publish, schedule, post, take down or retry a post.
+description: Publish or schedule a Wispu draft to the Brand's connected social accounts, with the person's approval in Wispu, follow up on posts already sent, and link posts published outside Wispu to their piece. Use when the person asks to publish, schedule, post, take down or retry a post, or says a post went out from the network's own app.
 ---
 
 # Publish with approval
@@ -42,6 +42,25 @@ approving it in Wispu. Approving there publishes or schedules it.
   to retry a failed one. Each waits for approval.
 - For TikTok, `get_publication_tiktok_creator(connection_id, media_type)`
   returns the account's posting options before you prepare the post.
+
+## Posts published outside Wispu
+
+A post the Brand made in the network's own app (Instagram, Facebook, TikTok…)
+on a connected account is not a Wispu publication, so link it to its piece
+before anything else publishes that piece again.
+
+- `list_external_posts` lists the latest 50 such posts, with `linked` when
+  someone already said which format each one is.
+- `sync_external_posts(url)` reads one post by its public link and returns it
+  in `found` (`found` null: no connected account has it). Without `url` it
+  reads every connected account's latest posts.
+- `link_external_post(external_post_id, expected_revision, variation_id)`
+  says which format the post is (same channel). Wispu then refuses to publish
+  that format again. `variation_id` null clears the link. It does not cancel
+  a publication already scheduled for that format: use
+  `request_publication_cancel` for it.
+- Once stored, the post appears among the posts Wispu can promote in Ads,
+  like any other.
 
 ## Rules
 

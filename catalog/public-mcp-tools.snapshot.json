@@ -832,7 +832,7 @@
             "design",
             "ready"
           ],
-          "description": "Where the idea is: idea, copy, design or ready."
+          "description": "idea: a raw idea, still to refine. copy: ready to write, so it can be turned into Editor formats. design and ready are older values that also count as ready to write."
         },
         "pinned": {
           "default": false,
@@ -4034,6 +4034,62 @@
     }
   },
   {
+    "name": "link_external_post",
+    "title": "Link a post published outside Wispu to its piece",
+    "annotations": {
+      "readOnlyHint": false,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    },
+    "inputSchema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "type": "object",
+      "properties": {
+        "brand": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+          "maxLength": 100,
+          "description": "The Brand code from list_brands."
+        },
+        "external_post_id": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "expected_revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "variation_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "idempotency_key": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_.:-]{1,255}$",
+          "description": "A unique id for this request; reuse it only to retry the same request."
+        }
+      },
+      "required": [
+        "brand",
+        "external_post_id",
+        "expected_revision",
+        "variation_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
     "name": "list_approvals",
     "title": "List my approval requests",
     "annotations": {
@@ -4354,6 +4410,14 @@
             "idea",
             "copy",
             "design",
+            "ready"
+          ]
+        },
+        "readiness": {
+          "description": "raw: ideas still to refine (stage idea). ready: ideas ready to write (any later stage).",
+          "type": "string",
+          "enum": [
+            "raw",
             "ready"
           ]
         },
@@ -5225,6 +5289,37 @@
       "required": [
         "brand",
         "element_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "list_external_posts",
+    "title": "List posts published outside Wispu",
+    "annotations": {
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    },
+    "inputSchema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "type": "object",
+      "properties": {
+        "brand": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+          "maxLength": 100,
+          "description": "The Brand code from list_brands."
+        },
+        "idempotency_key": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_.:-]{1,255}$",
+          "description": "A unique id for this request; reuse it only to retry the same request."
+        }
+      },
+      "required": [
+        "brand"
       ],
       "additionalProperties": false
     }
@@ -8504,6 +8599,63 @@
     }
   },
   {
+    "name": "set_editorial_variation_status",
+    "title": "Mark Editor format as draft or ready",
+    "annotations": {
+      "readOnlyHint": false,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    },
+    "inputSchema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "type": "object",
+      "properties": {
+        "brand": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+          "maxLength": 100,
+          "description": "The Brand code from list_brands."
+        },
+        "work_id": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "variation_id": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "draft",
+            "ready"
+          ],
+          "description": "draft while the format is being worked on; ready once it can be published."
+        },
+        "note": {
+          "description": "Why the change is asked, shown to the person who approves it.",
+          "type": "string",
+          "maxLength": 500
+        },
+        "idempotency_key": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_.:-]{1,255}$",
+          "description": "A unique id for this request; reuse it only to retry the same request."
+        }
+      },
+      "required": [
+        "brand",
+        "work_id",
+        "variation_id",
+        "status"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
     "name": "start_strategy_draft",
     "title": "Start strategy draft",
     "annotations": {
@@ -8562,6 +8714,43 @@
         "expected_revision",
         "reason",
         "idempotency_key"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "sync_external_posts",
+    "title": "Fetch posts published outside Wispu",
+    "annotations": {
+      "readOnlyHint": false,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    },
+    "inputSchema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "type": "object",
+      "properties": {
+        "brand": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+          "maxLength": 100,
+          "description": "The Brand code from list_brands."
+        },
+        "url": {
+          "description": "A post's public link, to fetch just that post.",
+          "type": "string",
+          "maxLength": 2048,
+          "format": "uri"
+        },
+        "idempotency_key": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_.:-]{1,255}$",
+          "description": "A unique id for this request; reuse it only to retry the same request."
+        }
+      },
+      "required": [
+        "brand"
       ],
       "additionalProperties": false
     }
@@ -8785,7 +8974,7 @@
             "design",
             "ready"
           ],
-          "description": "Where the idea is: idea, copy, design or ready."
+          "description": "idea: a raw idea, still to refine. copy: ready to write, so it can be turned into Editor formats. design and ready are older values that also count as ready to write."
         },
         "pinned": {
           "type": "boolean",
