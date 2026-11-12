@@ -55,8 +55,10 @@ before anything else publishes that piece again.
   in `found` (`found` null: no connected account has it). Without `url` it
   reads every connected account's latest posts.
 - `link_external_post(external_post_id, expected_revision, variation_id)`
-  says which format the post is (same channel). Wispu then refuses to publish
-  that format again. `variation_id` null clears the link. It does not cancel
+  says which format the post is: any format that can go to the post's
+  network. Wispu then refuses to publish that format again on that network
+  only; its other networks stay publishable. A format takes one external post
+  per network. `variation_id` null clears the link. It does not cancel
   a publication already scheduled for that format: use
   `request_publication_cancel` for it.
 - Once stored, the post appears among the posts Wispu can promote in Ads,
