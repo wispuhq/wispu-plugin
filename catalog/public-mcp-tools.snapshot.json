@@ -9772,7 +9772,7 @@
           ]
         },
         "max_posts": {
-          "description": "At most this many posts (default 200).",
+          "description": "The older name of limit: posts per page (at most 100 a page). When sent it replaces limit; send the same value with the cursor of the next page.",
           "type": "integer",
           "minimum": 1,
           "maximum": 200
@@ -9786,10 +9786,29 @@
             "copy"
           ]
         },
+        "detail": {
+          "default": "excerpt",
+          "description": "excerpt (the default) cuts each post's snippet to its first 320 characters; full returns the whole text.",
+          "type": "string",
+          "enum": [
+            "excerpt",
+            "full"
+          ]
+        },
         "idempotency_key": {
           "type": "string",
           "pattern": "^[A-Za-z0-9_.:-]{1,255}$",
           "description": "A unique id for this request; reuse it only to retry the same request."
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100,
+          "default": 50
+        },
+        "cursor": {
+          "type": "string",
+          "maxLength": 512
         }
       },
       "required": [
