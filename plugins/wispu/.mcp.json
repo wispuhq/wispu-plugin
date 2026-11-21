@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "wispu": {
+      "type": "http",
+      "url": "https://wispu.app/api/mcp"
+    }
+  }
+}
